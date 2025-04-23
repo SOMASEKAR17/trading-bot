@@ -10,7 +10,7 @@ nest_asyncio.apply()  # Patch event loop to allow nested loops
 scheduler = AsyncIOScheduler()
 candle_data = {}
 
-@scheduler.scheduled_job("cron", hour=21, minute=0)
+@scheduler.scheduled_job("cron", hour=15, minute=30)  
 async def mark_liquidity_range():
     global candle_data
     candle_data = get_4h_candle()
@@ -26,6 +26,11 @@ async def monitor_liquidity_grab():
         return
     price = get_current_price()
     high, low = candle_data["high"], candle_data["low"]
+
+    print("Price:", price)
+    print("High:", high)
+    print("Low:", low)
+
 
     if price > high:
         entry = price
